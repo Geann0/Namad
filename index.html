@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhe o Personagem Histórico</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .fact {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .input-section {
+            margin: 20px 0;
+            text-align: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 7px;
+  border: 1px solid rgb(61, 106, 255);
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 2px;
+  background: transparent;
+  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+button:hover {
+  background: rgb(61, 106, 255);
+  box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815);
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+button:hover::before {
+  -webkit-animation: sh02 0.5s 0s linear;
+  -moz-animation: sh02 0.5s 0s linear;
+  animation: sh02 0.5s 0s linear;
+}
+
+button::before {
+  content: '';
+  display: block;
+  width: 0px;
+  height: 86%;
+  position: absolute;
+  top: 7%;
+  left: 0%;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 0 50px 30px #fff;
+  -webkit-transform: skewX(-20deg);
+  -moz-transform: skewX(-20deg);
+  -ms-transform: skewX(-20deg);
+  -o-transform: skewX(-20deg);
+  transform: skewX(-20deg);
+}
+
+@keyframes sh02 {
+  from {
+    opacity: 0;
+    left: 0%;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+
+button:active {
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: box-shadow 0.2s ease-in;
+  -moz-transition: box-shadow 0.2s ease-in;
+  transition: box-shadow 0.2s ease-in;
+}
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .advantages {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .shop {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .message {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏛️ Adivinhe o Personagem Histórico</h1>
+
+        <div class="stats">
+            <div>📊 Pontuação: <span id="score">0</span></div>
+            <div>💰 Dinheiro: <span id="money">0</span></div>
+            <div>❤️ Vidas: <span id="lives">3</span></div>
+        </div>
+
+        <div class="fact" id="fact">
+            Carregando fato histórico...
+        </div>
+
+        <div class="input-section">
+            <input type="text" id="guessInput" placeholder="Digite o nome do personagem...">
+            <br><br>
+            <button class="btn-primary" onclick="makeGuess()">🎯 Adivinhar</button>
+        </div>
+
+        <div class="advantages">
+            <h3>🎁 Vantagens Disponíveis</h3>
+            <div id="advantages-info"></div>
+            <button class="btn-secondary" onclick="useHint()">💡 Usar Dica</button>
+            <button class="btn-secondary" onclick="useSkip()">⏭️ Pular</button>
+        </div>
+
+        <div class="shop">
+            <h3>🛒 Loja</h3>
+            <button class="btn-success" onclick="buyItem('dicas')">💡 Comprar Dica (5💰)</button>
+            <button class="btn-success" onclick="buyItem('pulo')">⏭️ Comprar Pulo (10💰)</button>
+            <button class="btn-success" onclick="buyItem('pesquisa')">🔍 Comprar Pesquisa (20💰)</button>
+        </div>
+
+        <div id="message"></div>
+    </div>
+
+    <script>
+        let gameState = {};
+
+        function updateGameState() {
+            fetch('/get_game_state')
+                .then(response => response.json())
+                .then(data => {
+                    gameState = data;
+                    document.getElementById('score').textContent = data.score;
+                    document.getElementById('money').textContent = data.money;
+                    document.getElementById('lives').textContent = data.lives;
+                    document.getElementById('fact').textContent = data.fact;
+
+                    const advantagesInfo = document.getElementById('advantages-info');
+                    advantagesInfo.innerHTML = `
+                        Dicas: ${data.advantages.dicas.quantidade} | 
+                        Pulos: ${data.advantages.pulo.quantidade} | 
+                        Pesquisas: ${data.advantages.pesquisa.quantidade}
+                    `;
+                });
+        }
+
+        function makeGuess() {
+            const guess = document.getElementById('guessInput').value.trim();
+            if (!guess) {
+                showMessage('Digite o nome do personagem!', 'error');
+                return;
+            }
+
+            fetch('/guess', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({guess: guess})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.game_over) {
+                        showMessage(data.message, 'error');
+                    } else if (data.correct) {
+                        showMessage(data.message + `\n+${data.score_gained} pontos!`, 'success');
+                    } else {
+                        showMessage(data.message, 'error');
+                    }
+                    document.getElementById('guessInput').value = '';
+                    updateGameState();
+                } else {
+                    showMessage(data.message, 'error');
+                }
+            });
+        }
+
+        function useHint() {
+            fetch('/use_hint', {method: 'POST'})
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showMessage(`Dica: ${data.hint}`, 'info');
+                        updateGameState();
+                    } else {
+                        showMessage(data.message, 'error');
+                    }
+                });
+        }
+
+        function useSkip() {
+            fetch('/use_skip', {method: 'POST'})
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showMessage('Pergunta pulada!', 'info');
+                        updateGameState();
+                    } else {
+                        showMessage(data.message, 'error');
+                    }
+                });
+        }
+
+        function buyItem(item) {
+            fetch('/buy_item', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({item: item})
+            })
+            .then(response => response.json())
+            .then(data => {
+                showMessage(data.message, data.success ? 'success' : 'error');
+                if (data.success) {
+                    updateGameState();
+                }
+            });
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = message;
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = '';
+            }, 5000);
+        }
+
+        // Permitir Enter para adivinhar
+        document.getElementById('guessInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                makeGuess();
+            }
+        });
+
+        // Carregar estado inicial
+        updateGameState();
+    </script>
+</body>
+</html>
